@@ -16,7 +16,9 @@ var (
 	// MediaChannel Discord channel for updates about media libraries
 	MediaChannel = "493440929374404618"
 	// err Error
-	err error
+	err          error
+	successColor = 0x4CAF50
+	errorColor   = 0xDD2C00
 )
 
 func init() {
