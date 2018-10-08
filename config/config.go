@@ -12,6 +12,8 @@ var (
 	Host string
 	// BotToken The Discord Bot Token
 	BotToken string
+	// GinMode The mode of gin
+	GinMode string
 )
 
 func init() {
@@ -20,7 +22,10 @@ func init() {
 	viper.AddConfigPath(".")
 	err := viper.ReadInConfig()
 	utils.HandleError("Error reading config file", err)
+
+	// Read the variables defined by var so that they are available as config.Variable
 	BotToken = viper.GetString("BOT_TOKEN")
 	Port = viper.GetString("PORT")
 	Host = viper.GetString("HOST")
+	GinMode = viper.GetString("GIN_MODE")
 }

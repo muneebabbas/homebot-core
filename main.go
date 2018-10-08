@@ -9,6 +9,7 @@ import (
 )
 
 func main() {
+	gin.SetMode(config.GinMode)
 	router := gin.Default()
 
 	// Register webhook group routes

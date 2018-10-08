@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/bwmarrin/discordgo"
-
 	"github.com/gin-gonic/gin"
 )
 
