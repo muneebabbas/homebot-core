@@ -40,7 +40,7 @@ func createSonarrGrabEmbed(json SonarrJSON) *discordgo.MessageEmbed {
 		*json.Episodes[0].EpisodeNumber,
 		*json.Episodes[0].SeasonNumber,
 	)
-	messageEmbed.SetTitle(title)
+	messageEmbed.SetTitle(title).SetColor(infoColor)
 	return messageEmbed.MessageEmbed
 }
 
@@ -53,6 +53,6 @@ func createSonarrDownloadEmbed(json SonarrJSON) *discordgo.MessageEmbed {
 		*json.Episodes[0].EpisodeNumber,
 		*json.Episodes[0].SeasonNumber,
 	)
-	messageEmbed.SetTitle(title)
+	messageEmbed.SetTitle(title).SetColor(successColor)
 	return messageEmbed.MessageEmbed
 }
