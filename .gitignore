@@ -13,3 +13,6 @@
 
 # config file
 .env.yaml
+
+# compiled binaries
+main

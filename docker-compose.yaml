@@ -1,0 +1,10 @@
+version: '3'
+services:
+  homebot-core:
+    image: muneebabbas/homebot-core
+    container_name: homebot-core
+    restart: always
+    ports:
+      - 9912:9912
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
