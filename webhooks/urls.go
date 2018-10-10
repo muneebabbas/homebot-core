@@ -5,4 +5,5 @@ import "github.com/gin-gonic/gin"
 // RegisterWebhookRoutes Register all routes for different webhooks
 func RegisterWebhookRoutes(router *gin.RouterGroup) {
 	router.POST("/script", scriptWebHook)
+	router.POST("/sonarr", sonarrWebhook)
 }

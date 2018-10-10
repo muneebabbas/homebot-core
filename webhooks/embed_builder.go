@@ -6,8 +6,8 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
-// Embed Struct to wrap discordgo's MessageEmbed
-type Embed struct {
+// EmbedBuilder Struct to wrap discordgo's MessageEmbed
+type EmbedBuilder struct {
 	*discordgo.MessageEmbed
 }
 
@@ -23,18 +23,18 @@ const (
 )
 
 // NewEmbed returns a new embed object
-func NewEmbed() *Embed {
-	return &Embed{&discordgo.MessageEmbed{}}
+func NewEmbed() *EmbedBuilder {
+	return &EmbedBuilder{&discordgo.MessageEmbed{}}
 }
 
 // SetTitle Member function of Embed to
-func (e *Embed) SetTitle(name string) *Embed {
+func (e *EmbedBuilder) SetTitle(name string) *EmbedBuilder {
 	e.Title = name
 	return e
 }
 
 //SetDescription description of the discordgo.MessageEmbed object
-func (e *Embed) SetDescription(description string) *Embed {
+func (e *EmbedBuilder) SetDescription(description string) *EmbedBuilder {
 	if len(description) > 2048 {
 		description = description[:2048]
 	}
@@ -43,7 +43,7 @@ func (e *Embed) SetDescription(description string) *Embed {
 }
 
 // AddField [name] [value]
-func (e *Embed) AddField(name, value string) *Embed {
+func (e *EmbedBuilder) AddField(name, value string) *EmbedBuilder {
 	if len(value) > 1024 {
 		value = value[:1024]
 	}
@@ -62,7 +62,7 @@ func (e *Embed) AddField(name, value string) *Embed {
 }
 
 // SetFooter [Text] [iconURL]
-func (e *Embed) SetFooter(args ...string) *Embed {
+func (e *EmbedBuilder) SetFooter(args ...string) *EmbedBuilder {
 	iconURL := ""
 	text := ""
 	proxyURL := ""
@@ -90,7 +90,7 @@ func (e *Embed) SetFooter(args ...string) *Embed {
 }
 
 // SetImage ...
-func (e *Embed) SetImage(args ...string) *Embed {
+func (e *EmbedBuilder) SetImage(args ...string) *EmbedBuilder {
 	var URL string
 	var proxyURL string
 
@@ -112,7 +112,7 @@ func (e *Embed) SetImage(args ...string) *Embed {
 
 // SetThumbnail The discordgo.MessageEmbedThumbnail struct of the EmbedMessage
 // https://discordapp.com/developers/docs/resources/channel#embed-object-embed-thumbnail-structure
-func (e *Embed) SetThumbnail(args ...string) *Embed {
+func (e *EmbedBuilder) SetThumbnail(args ...string) *EmbedBuilder {
 	var URL string
 	var proxyURL string
 
@@ -134,7 +134,7 @@ func (e *Embed) SetThumbnail(args ...string) *Embed {
 
 // SetAuthor Set discordgo.MessageEmbedAuthor
 // https://discordapp.com/developers/docs/resources/channel#embed-object-embed-author-structure
-func (e *Embed) SetAuthor(args ...string) *Embed {
+func (e *EmbedBuilder) SetAuthor(args ...string) *EmbedBuilder {
 	var (
 		name     string
 		iconURL  string
@@ -169,19 +169,19 @@ func (e *Embed) SetAuthor(args ...string) *Embed {
 }
 
 // SetURL Set url of the embed
-func (e *Embed) SetURL(URL string) *Embed {
+func (e *EmbedBuilder) SetURL(URL string) *EmbedBuilder {
 	e.URL = URL
 	return e
 }
 
 // SetColor Set color code of the embed
-func (e *Embed) SetColor(clr int) *Embed {
+func (e *EmbedBuilder) SetColor(clr int) *EmbedBuilder {
 	e.Color = clr
 	return e
 }
 
 // InlineAllFields sets all fields in the embed to be inline
-func (e *Embed) InlineAllFields() *Embed {
+func (e *EmbedBuilder) InlineAllFields() *EmbedBuilder {
 	for _, v := range e.Fields {
 		v.Inline = true
 	}
@@ -189,7 +189,7 @@ func (e *Embed) InlineAllFields() *Embed {
 }
 
 // Truncate truncates any embed value over the character limit.
-func (e *Embed) Truncate() *Embed {
+func (e *EmbedBuilder) Truncate() *EmbedBuilder {
 	e.TruncateDescription()
 	e.TruncateFields()
 	e.TruncateFooter()
@@ -198,7 +198,7 @@ func (e *Embed) Truncate() *Embed {
 }
 
 // TruncateFields truncates fields that are too long
-func (e *Embed) TruncateFields() *Embed {
+func (e *EmbedBuilder) TruncateFields() *EmbedBuilder {
 	if len(e.Fields) > 25 {
 		e.Fields = e.Fields[:EmbedLimitField]
 	}
@@ -215,7 +215,7 @@ func (e *Embed) TruncateFields() *Embed {
 
 // TruncateDescription Truncate Description over the character limit
 //
-func (e *Embed) TruncateDescription() *Embed {
+func (e *EmbedBuilder) TruncateDescription() *EmbedBuilder {
 	if len(e.Description) > EmbedLimitDescription {
 		e.Description = e.Description[:EmbedLimitDescription]
 	}
@@ -223,7 +223,7 @@ func (e *Embed) TruncateDescription() *Embed {
 }
 
 // TruncateTitle Trunctate Title over the character limit
-func (e *Embed) TruncateTitle() *Embed {
+func (e *EmbedBuilder) TruncateTitle() *EmbedBuilder {
 	if len(e.Title) > EmbedLimitTitle {
 		e.Title = e.Title[:EmbedLimitTitle]
 	}
@@ -231,7 +231,7 @@ func (e *Embed) TruncateTitle() *Embed {
 }
 
 // TruncateFooter Truncate Footer.Text over the character limit
-func (e *Embed) TruncateFooter() *Embed {
+func (e *EmbedBuilder) TruncateFooter() *EmbedBuilder {
 	if e.Footer != nil && len(e.Footer.Text) > EmbedLimitFooter {
 		e.Footer.Text = e.Footer.Text[:EmbedLimitFooter]
 	}
@@ -240,7 +240,7 @@ func (e *Embed) TruncateFooter() *Embed {
 
 // SetTimestamp Set the Timestamp. Defaults to current time and considers only the first
 // argument if more than one given
-func (e *Embed) SetTimestamp(args ...time.Time) *Embed {
+func (e *EmbedBuilder) SetTimestamp(args ...time.Time) *EmbedBuilder {
 	var embedTime time.Time
 	if len(args) > 0 {
 		embedTime = args[0]
