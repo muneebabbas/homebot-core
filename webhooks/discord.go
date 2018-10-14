@@ -9,14 +9,20 @@ import (
 var (
 	// Discord The discordgo Session object
 	Discord *discordgo.Session
+
+	// err Error
+	err error
+)
+
+const (
 	// TestChannel Discord channel id for testing purposes
 	TestChannel = "498093617185816626"
 	// LogsChannel Discord channel for different logs like updates etc.
 	LogsChannel = "493441003144085512"
 	// MediaChannel Discord channel for updates about media libraries
 	MediaChannel = "493440929374404618"
-	// err Error
-	err          error
+
+	// Discord colors
 	successColor = 0x4CAF50
 	errorColor   = 0xDD2C00
 	infoColor    = 0x4286f4
@@ -25,6 +31,11 @@ var (
 	sonarrLogo = "https://i.imgur.com/7JooOj9.png"
 	radarrLogo = "https://i.imgur.com/iR79RP1.png"
 	backupLogo = "https://i.imgur.com/cpz7Hj9.png"
+
+	// Other constants
+	logLines  = 10
+	checkMark = "\u2713"
+	crossMark = "\u2717"
 )
 
 func init() {

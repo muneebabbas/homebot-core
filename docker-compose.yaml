@@ -6,5 +6,5 @@ services:
     restart: always
     ports:
       - 9912:9912
-    environment:
-      - BOT_TOKEN=${BOT_TOKEN}
+    env-file:
+      - .env
