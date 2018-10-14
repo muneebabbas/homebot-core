@@ -36,11 +36,11 @@ func createBackupScriptEmbed(data ScriptJSON) *discordgo.MessageEmbed {
 	// Set title and color  based on Returncode
 	if *data.Returncode == 0 {
 		logs := getLogs(data.Stdout)
-		messageEmbed.SetTitle("Backup Complete \u2713").SetColor(successColor).
+		messageEmbed.SetTitle("Backup Complete "+checkMark).SetColor(successColor).
 			AddField("Logs", logs)
 	} else {
 		logs := getLogs(data.Stderr)
-		title := fmt.Sprintf("Backup Error \u2717 (exit code %d)", *data.Returncode)
+		title := fmt.Sprintf("Backup Error %s (exit code %d)", crossMark, *data.Returncode)
 		messageEmbed.SetTitle(title).SetColor(errorColor).
 			AddField("Logs", logs)
 	}
@@ -61,7 +61,7 @@ func createSonarrGrabEmbed(data SonarrJSON) *discordgo.MessageEmbed {
 	messageEmbed := NewEmbed().
 		SetThumbnail(sonarrLogo).
 		SetColor(infoColor).
-		SetTitle("Episode Grabbed \u2713")
+		SetTitle("Episode Grabbed " + checkMark)
 
 	episode := data.Episodes[0]
 	title := fmt.Sprintf(
@@ -85,7 +85,7 @@ func createSonarrDownloadEmbed(data SonarrJSON) *discordgo.MessageEmbed {
 	messageEmbed := NewEmbed().
 		SetThumbnail(sonarrLogo).
 		SetColor(successColor).
-		SetTitle("Episode Downloaded \u2713")
+		SetTitle("Episode Downloaded " + checkMark)
 
 	episode := data.Episodes[0]
 	title := fmt.Sprintf(
@@ -109,7 +109,7 @@ func createRadarrGrabEmbed(data RadarrJSON) *discordgo.MessageEmbed {
 	messageEmbed := NewEmbed().
 		SetThumbnail(radarrLogo).
 		SetColor(infoColor).
-		SetTitle("Movie grabbed successfully \u2713")
+		SetTitle("Movie grabbed successfully " + checkMark)
 
 	title := fmt.Sprintf("%s (%d)", data.RemoteMovie.Title, *data.RemoteMovie.Year)
 	information := fmt.Sprintf(
@@ -128,7 +128,7 @@ func createRadarrDownloadEmbed(data RadarrJSON) *discordgo.MessageEmbed {
 	messageEmbed := NewEmbed().
 		SetThumbnail(radarrLogo).
 		SetColor(successColor).
-		SetTitle("Movie downloaded \u2713")
+		SetTitle("Movie downloaded " + checkMark)
 
 	title := fmt.Sprintf("%s (%d)", data.RemoteMovie.Title, *data.RemoteMovie.Year)
 	information := fmt.Sprintf(

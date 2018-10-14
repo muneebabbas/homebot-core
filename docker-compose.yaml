@@ -6,5 +6,5 @@ services:
     restart: always
     ports:
       - 9912:9912
-    env-file:
+    env_file:
       - .env
