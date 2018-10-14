@@ -12,6 +12,7 @@ import (
 
 // ScriptJSON The structure of json the script webhook expects
 type ScriptJSON struct {
+	Debug       bool   `json:"debug" binding:"-"`
 	Path        string `json:"path" binding:"required"`
 	Description string `json:"description" binding:"required"`
 	Time        *int   `json:"time" binding:"exists"`
@@ -24,6 +25,7 @@ type ScriptJSON struct {
 
 // SonarrJSON The structure of Sonarr's webhook requests
 type SonarrJSON struct {
+	Debug     bool   `json:"debug" binding:"-"`
 	EventType string `json:"eventType" binding:"required"`
 	Series    struct {
 		Title string `json:"title" binding:"required"`
@@ -52,6 +54,7 @@ type Episode struct {
 
 // RadarrJSON The structure of Radarr's webhook requests
 type RadarrJSON struct {
+	Debug     bool   `json:"debug" binding:"-"`
 	EventType string `json:"eventType" binding:"required"`
 	Movie     struct {
 		Title string `json:"title" binding:"required"`
@@ -81,17 +84,20 @@ type RadarrJSON struct {
 // scriptWebhook Handle /webhooks/script endpoint
 // This endpoint receives updates from different maintenance scripts like backups
 func scriptWebHook(c *gin.Context) {
-	// Switch to test channel for debug mode
 	discordChannel := LogsChannel
-	if config.GinMode == "debug" {
-		discordChannel = TestChannel
-	}
+
 	// Check that all required parameters are present
 	var json ScriptJSON
 	if err := c.ShouldBindJSON(&json); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	// Switch to test Channel if debug mode or Debug is true in request data
+	if config.GinMode == "debug" || json.Debug == true {
+		discordChannel = TestChannel
+	}
+
 	messageEmbed := createScriptEmbed(json)
 	_, err := Discord.ChannelMessageSendEmbed(discordChannel, messageEmbed)
 	if err != nil {
@@ -108,9 +114,6 @@ func scriptWebHook(c *gin.Context) {
 // This function handles updates from sonarr
 func sonarrWebhook(c *gin.Context) {
 	discordChannel := MediaChannel
-	if config.GinMode == "debug" {
-		discordChannel = TestChannel
-	}
 	// Check that all required parameters are present
 	var json SonarrJSON
 	if err := c.ShouldBindJSON(&json); err != nil {
@@ -118,11 +121,19 @@ func sonarrWebhook(c *gin.Context) {
 		return
 	}
 
+	// Switch to test Channel if debug mode or Debug is true in request data
+	if config.GinMode == "debug" || json.Debug == true {
+		discordChannel = TestChannel
+	}
+
 	var messageEmbed *discordgo.MessageEmbed
 	if json.EventType == "Grab" {
 		messageEmbed = createSonarrGrabEmbed(json)
 	} else if json.EventType == "Download" {
 		messageEmbed = createSonarrDownloadEmbed(json)
+	} else if json.EventType == "Test" {
+		messageEmbed = NewEmbed().SetTitle("Sonarr Webhook Test").MessageEmbed
+		discordChannel = TestChannel
 	}
 
 	_, err := Discord.ChannelMessageSendEmbed(discordChannel, messageEmbed)
@@ -140,9 +151,6 @@ func sonarrWebhook(c *gin.Context) {
 // This function handles updates from radarr
 func radarrWebhook(c *gin.Context) {
 	discordChannel := MediaChannel
-	if config.GinMode == "debug" {
-		discordChannel = TestChannel
-	}
 	// Check that all required parameters are present
 	var json RadarrJSON
 	if err := c.ShouldBindJSON(&json); err != nil {
@@ -150,11 +158,20 @@ func radarrWebhook(c *gin.Context) {
 		return
 	}
 
+	// Switch to test Channel if debug mode or Debug is true in request data
+	if config.GinMode == "debug" || json.Debug == true {
+		discordChannel = TestChannel
+	}
+	fmt.Println(json.Debug)
+
 	var messageEmbed *discordgo.MessageEmbed
 	if json.EventType == "Grab" {
 		messageEmbed = createRadarrGrabEmbed(json)
 	} else if json.EventType == "Download" {
 		messageEmbed = createRadarrDownloadEmbed(json)
+	} else if json.EventType == "Test" {
+		messageEmbed = NewEmbed().SetTitle("Radarr Webhook Test").MessageEmbed
+		discordChannel = TestChannel
 	}
 
 	_, err := Discord.ChannelMessageSendEmbed(discordChannel, messageEmbed)
