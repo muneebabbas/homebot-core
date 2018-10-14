@@ -20,7 +20,7 @@ var (
 
 func init() {
 	// Initialise viper to read config.yaml
-	viper.SetConfigName(".env")
+	viper.SetConfigName("config")
 	viper.AddConfigPath(".")
 	err := viper.ReadInConfig()
 	utils.HandleError("Error reading config file", err)
