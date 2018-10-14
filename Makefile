@@ -7,7 +7,7 @@ runserver:
 dockerpush:
 	make compile && \
 	docker image build -t muneebabbas/homebot-core . && \
-	docker push muneebabbas/homebot-core && \
+	docker push muneebabbas/homebot-core
 
 removedangling:
 	docker rmi -f $(sudo docker images -f dangling=true -q)
