@@ -6,4 +6,6 @@ import "github.com/gin-gonic/gin"
 func RegisterWebhookRoutes(router *gin.RouterGroup) {
 	router.POST("/script", scriptWebHook)
 	router.POST("/sonarr", sonarrWebhook)
+	router.POST("/radarr", radarrWebhook)
+	router.POST("/embed-test", embedTestWebhook)
 }

@@ -20,6 +20,11 @@ var (
 	successColor = 0x4CAF50
 	errorColor   = 0xDD2C00
 	infoColor    = 0x4286f4
+
+	// Logos
+	sonarrLogo = "https://i.imgur.com/7JooOj9.png"
+	radarrLogo = "https://i.imgur.com/iR79RP1.png"
+	backupLogo = "https://i.imgur.com/cpz7Hj9.png"
 )
 
 func init() {

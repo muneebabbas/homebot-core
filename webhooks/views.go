@@ -19,6 +19,7 @@ type ScriptJSON struct {
 	Stderr      string `json:"stderr" binding:"-"`
 	Stdout      string `json:"stdout" binding:"-"`
 	Logfile     string `json:"logfile" binding:"required"`
+	Type        string `json:"type" binding:"required"`
 }
 
 // SonarrJSON The structure of Sonarr's webhook requests
@@ -47,6 +48,34 @@ type Episode struct {
 	EpisodeNumber *int   `json:"episodeNumber" binding:"required"`
 	SeasonNumber  *int   `json:"seasonNumber" binding:"required"`
 	Quality       string `json:"quality" binding:"required"`
+}
+
+// RadarrJSON The structure of Radarr's webhook requests
+type RadarrJSON struct {
+	EventType string `json:"eventType" binding:"required"`
+	Movie     struct {
+		Title string `json:"title" binding:"required"`
+	}
+	Release struct {
+		Quality       string `json:"quality" binding:"required"`
+		QuaityVersion *int   `json:"qualityVersion" binding:"required"`
+		Size          *int   `json:"size" binding:"required"`
+		ReleaseTitle  string `json:"releaseTitle" binding:"required"`
+		ReleaseGroup  string `json:"releaseGroup" binding:"required"`
+		Indexer       string `json:"indexer" binding:"required"`
+	} `json:"release" binding:"-"`
+
+	MovieFile struct {
+		RelativePath string `json:"relativePath" binding:"required"`
+		Path         string `json:"path" binding:"required"`
+		Quality      string `json:"quality" binding:"required"`
+		ReleaseGroup string `json:"releaseGroup" binding:"required"`
+	} `json:"movieFile" binding:"-"`
+
+	RemoteMovie struct {
+		Title string `json:"title" binding:"required"`
+		Year  *int   `json:"year" binding:"required"`
+	} `json:"remoteMovie" binding:"required"`
 }
 
 // scriptWebhook Handle /webhooks/script endpoint
@@ -105,5 +134,49 @@ func sonarrWebhook(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "Success"})
 	return
+}
 
+// radarrWebhook Handle /webhooks/radarr
+// This function handles updates from radarr
+func radarrWebhook(c *gin.Context) {
+	discordChannel := MediaChannel
+	if config.GinMode == "debug" {
+		discordChannel = TestChannel
+	}
+	// Check that all required parameters are present
+	var json RadarrJSON
+	if err := c.ShouldBindJSON(&json); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	var messageEmbed *discordgo.MessageEmbed
+	if json.EventType == "Grab" {
+		messageEmbed = createRadarrGrabEmbed(json)
+	} else if json.EventType == "Download" {
+		messageEmbed = createRadarrDownloadEmbed(json)
+	}
+
+	_, err := Discord.ChannelMessageSendEmbed(discordChannel, messageEmbed)
+	if err != nil {
+		fmt.Println("error sending message to discord channel,", err)
+		c.JSON(http.StatusInternalServerError,
+			gin.H{"error": "Error while sending message to discord"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "Success"})
+	return
+}
+
+// embedTestWebhook Test webhook for checking Discord's Embed formatting
+func embedTestWebhook(c *gin.Context) {
+	messageEmbed := createTestEmbed()
+	_, err := Discord.ChannelMessageSendEmbed(TestChannel, messageEmbed)
+	if err != nil {
+		fmt.Println("error sending message to discord channel,", err)
+		c.JSON(http.StatusInternalServerError,
+			gin.H{"error": "Error while sending message to discord"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "Success"})
 }
