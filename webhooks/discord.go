@@ -33,7 +33,7 @@ const (
 	backupLogo = "https://i.imgur.com/cpz7Hj9.png"
 
 	// Other constants
-	logLines  = 10
+	logLines  = 3
 	checkMark = "\u2713"
 	crossMark = "\u2717"
 )

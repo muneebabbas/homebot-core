@@ -17,3 +17,5 @@
 # compiled binaries
 main
 gin-bin
+
+.vscode

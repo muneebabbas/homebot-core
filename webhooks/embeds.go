@@ -31,7 +31,7 @@ func createBackupScriptEmbed(data ScriptJSON) *discordgo.MessageEmbed {
 		data.Description,
 	)
 	messageEmbed.AddField("Details", details).
-		SetFooter(fmt.Sprintf("Please see full logs at %s", data.Logfile)).
+		SetFooter(fmt.Sprintf("See full logs at %s", data.Logfile)).
 		SetThumbnail(backupLogo)
 
 	// Set title and color  based on Returncode
