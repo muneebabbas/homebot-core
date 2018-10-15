@@ -75,7 +75,7 @@ func createSonarrGrabEmbed(data SonarrJSON) *discordgo.MessageEmbed {
 		"Title: %s\nQuality: %s\nSize: %s",
 		episode.Title,
 		data.Release.Quality,
-		humanize.Bytes(uint64(*data.Release.Size)),
+		humanize.Bytes(*data.Release.Size),
 	)
 	messageEmbed.AddField(title, information)
 	return messageEmbed.MessageEmbed
@@ -92,14 +92,13 @@ func createSonarrDownloadEmbed(data SonarrJSON) *discordgo.MessageEmbed {
 	title := fmt.Sprintf(
 		"%s Season %d Episode %d",
 		data.Series.Title,
-		*episode.EpisodeNumber,
 		*episode.SeasonNumber,
+		*episode.EpisodeNumber,
 	)
 	information := fmt.Sprintf(
-		"Title: %s\nQuality: %s\nPath: %s",
+		"Title: %s\nQuality: %s",
 		episode.Title,
 		data.EpisodeFile.Quality,
-		data.EpisodeFile.RelativePath,
 	)
 	messageEmbed.AddField(title, information)
 	return messageEmbed.MessageEmbed
@@ -117,7 +116,7 @@ func createRadarrGrabEmbed(data RadarrJSON) *discordgo.MessageEmbed {
 		"Release Title: %s\nQuality: %s\nSize: %s\nIndexer: %s",
 		data.Release.ReleaseTitle,
 		data.Release.Quality,
-		humanize.Bytes(uint64(*data.Release.Size)),
+		humanize.Bytes(*data.Release.Size),
 		data.Release.Indexer,
 	)
 	messageEmbed.AddField(title, information)
@@ -133,8 +132,7 @@ func createRadarrDownloadEmbed(data RadarrJSON) *discordgo.MessageEmbed {
 
 	title := fmt.Sprintf("%s (%d)", data.RemoteMovie.Title, *data.RemoteMovie.Year)
 	information := fmt.Sprintf(
-		"Path: %s\nQuality: %s\nRelease Group: %s",
-		data.MovieFile.Path,
+		"Quality: %s\nRelease Group: %s",
 		data.MovieFile.Quality,
 		data.MovieFile.ReleaseGroup,
 	)

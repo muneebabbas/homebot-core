@@ -15,7 +15,7 @@ type ScriptJSON struct {
 	Debug       bool   `json:"debug" binding:"-"`
 	Path        string `json:"path" binding:"required"`
 	Description string `json:"description" binding:"required"`
-	Time        *int   `json:"time" binding:"exists"`
+	Time        *uint  `json:"time" binding:"exists"`
 	Returncode  *int   `json:"returncode" binding:"exists"`
 	Stderr      string `json:"stderr" binding:"-"`
 	Stdout      string `json:"stdout" binding:"-"`
@@ -32,9 +32,9 @@ type SonarrJSON struct {
 	} `json:"series" binding:"required"`
 	Episodes []Episode `json:"episodes" binding:"-"`
 	Release  struct {
-		Quality       string `json:"quality" binding:"required"`
-		QuaityVersion *int   `json:"qualityVersion" binding:"required"`
-		Size          *int   `json:"size" binding:"required"`
+		Quality       string  `json:"quality" binding:"required"`
+		QuaityVersion *uint16 `json:"qualityVersion" binding:"required"`
+		Size          *uint64 `json:"size" binding:"required"`
 	} `json:"release" binding:"-"`
 	EpisodeFile struct {
 		RelativePath string `json:"relativePath" binding:"required"`
@@ -46,10 +46,10 @@ type SonarrJSON struct {
 
 // Episode The structure of a single Episode in Episodes array
 type Episode struct {
-	Title         string `json:"title" binding:"required"`
-	EpisodeNumber *int   `json:"episodeNumber" binding:"required"`
-	SeasonNumber  *int   `json:"seasonNumber" binding:"required"`
-	Quality       string `json:"quality" binding:"required"`
+	Title         string  `json:"title" binding:"required"`
+	EpisodeNumber *uint16 `json:"episodeNumber" binding:"required"`
+	SeasonNumber  *uint16 `json:"seasonNumber" binding:"required"`
+	Quality       string  `json:"quality" binding:"required"`
 }
 
 // RadarrJSON The structure of Radarr's webhook requests
@@ -60,12 +60,11 @@ type RadarrJSON struct {
 		Title string `json:"title" binding:"required"`
 	}
 	Release struct {
-		Quality       string `json:"quality" binding:"required"`
-		QuaityVersion *int   `json:"qualityVersion" binding:"required"`
-		Size          *int   `json:"size" binding:"required"`
-		ReleaseTitle  string `json:"releaseTitle" binding:"required"`
-		ReleaseGroup  string `json:"releaseGroup" binding:"required"`
-		Indexer       string `json:"indexer" binding:"required"`
+		Quality      string  `json:"quality" binding:"required"`
+		Size         *uint64 `json:"size" binding:"required"`
+		ReleaseTitle string  `json:"releaseTitle" binding:"required"`
+		ReleaseGroup string  `json:"releaseGroup" binding:"required"`
+		Indexer      string  `json:"indexer" binding:"required"`
 	} `json:"release" binding:"-"`
 
 	MovieFile struct {
@@ -76,8 +75,8 @@ type RadarrJSON struct {
 	} `json:"movieFile" binding:"-"`
 
 	RemoteMovie struct {
-		Title string `json:"title" binding:"required"`
-		Year  *int   `json:"year" binding:"required"`
+		Title string  `json:"title" binding:"required"`
+		Year  *uint16 `json:"year" binding:"required"`
 	} `json:"remoteMovie" binding:"required"`
 }
 
