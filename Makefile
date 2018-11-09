@@ -10,4 +10,4 @@ dockerpush:
 	docker push muneebabbas/homebot-core
 
 removedangling:
-	docker rmi -f $(sudo docker images -f dangling=true -q)
+	docker image prune
