@@ -1,3 +1,4 @@
+// Package utils will contain different utility functions that are expected to be used throughout the project
 package utils
 
 import "fmt"

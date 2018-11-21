@@ -1,3 +1,5 @@
+// Package config is responsible for handling sensitive information like API keys/secrets and configuration varialbes for different deployments
+// The spf13/viper package is used to read the config.yaml file from the root directory
 package config
 
 import (
@@ -14,7 +16,7 @@ var (
 	Host string
 	// BotToken The Discord Bot Token
 	BotToken string
-	// GinMode The mode of gin
+	// GinMode The mode of gin (release vs debug)
 	GinMode string
 )
 
@@ -25,8 +27,10 @@ func init() {
 	err := viper.ReadInConfig()
 	utils.HandleError("Error reading config file", err)
 
-	// Read the variables defined by var so that they are available as config.Variable
+	// BotToken is an environment variable as it shouldn't be visible anywhere
 	BotToken = os.Getenv("BOT_TOKEN")
+
+	// Read the variables defined by var so that they are available as config.Variable
 	Port = viper.GetString("PORT")
 	Host = viper.GetString("HOST")
 	GinMode = viper.GetString("GIN_MODE")

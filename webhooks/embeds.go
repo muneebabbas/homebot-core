@@ -34,7 +34,7 @@ func createBackupScriptEmbed(data ScriptJSON) *discordgo.MessageEmbed {
 		SetFooter(fmt.Sprintf("See full logs at %s", data.Logfile)).
 		SetThumbnail(backupLogo)
 
-	// Set title and color  based on Returncode
+	// Set title and color based on Returncode
 	if *data.Returncode == 0 {
 		logs := getLogs(data.Stdout)
 		messageEmbed.SetTitle("Backup Complete "+checkMark).SetColor(successColor).
@@ -68,8 +68,8 @@ func createSonarrGrabEmbed(data SonarrJSON) *discordgo.MessageEmbed {
 	title := fmt.Sprintf(
 		"%s Season %d Episode %d",
 		data.Series.Title,
-		*episode.EpisodeNumber,
 		*episode.SeasonNumber,
+		*episode.EpisodeNumber,
 	)
 	information := fmt.Sprintf(
 		"Title: %s\nQuality: %s\nSize: %s",
