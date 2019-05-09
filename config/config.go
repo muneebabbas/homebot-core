@@ -5,8 +5,7 @@ package config
 import (
 	"os"
 
-	"github.com/muneebabbas/homebot-core/utils"
-	"github.com/spf13/viper"
+	"github.com/joho/godotenv"
 )
 
 var (
@@ -21,17 +20,15 @@ var (
 )
 
 func init() {
-	// Initialise viper to read config.yaml
-	viper.SetConfigName("config")
-	viper.AddConfigPath(".")
-	err := viper.ReadInConfig()
-	utils.HandleError("Error reading config file", err)
 
-	// BotToken is an environment variable as it shouldn't be visible anywhere
+	// Load environement variables from .env if it's present
+	// It's done in a fail safe manner and anything already in the env
+	// is preferred
+	godotenv.Load()
+
+	// Read environment variables
 	BotToken = os.Getenv("BOT_TOKEN")
-
-	// Read the variables defined by var so that they are available as config.Variable
-	Port = viper.GetString("PORT")
-	Host = viper.GetString("HOST")
-	GinMode = viper.GetString("GIN_MODE")
+	Port = os.Getenv("PORT")
+	Host = os.Getenv("HOST")
+	GinMode = os.Getenv("GIN_MODE")
 }

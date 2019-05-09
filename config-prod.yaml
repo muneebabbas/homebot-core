@@ -1,3 +1,0 @@
-PORT: 9912
-HOST: 0.0.0.0
-GIN_MODE: release

@@ -83,18 +83,19 @@ func createSonarrGrabEmbed(data SonarrJSON) *discordgo.MessageEmbed {
 
 // createSonarrDownloadEmbed Create MessageEmbed when a release is downloaded by Sonarr
 func createSonarrDownloadEmbed(data SonarrJSON) *discordgo.MessageEmbed {
-	messageEmbed := NewEmbed().
-		SetThumbnail(sonarrLogo).
-		SetColor(successColor).
-		SetTitle("Episode Downloaded " + checkMark)
 
 	episode := data.Episodes[0]
 	title := fmt.Sprintf(
-		"%s Season %d Episode %d",
+		"%s Season %d Episode %d %s",
 		data.Series.Title,
 		*episode.SeasonNumber,
 		*episode.EpisodeNumber,
+		checkMark,
 	)
+	messageEmbed := NewEmbed().
+		SetThumbnail(sonarrLogo).
+		SetColor(successColor)
+
 	information := fmt.Sprintf(
 		"Title: %s\nQuality: %s",
 		episode.Title,
