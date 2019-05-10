@@ -61,12 +61,11 @@ func getLogs(stdout string) string {
 func createSonarrGrabEmbed(data SonarrJSON) *discordgo.MessageEmbed {
 	messageEmbed := NewEmbed().
 		SetThumbnail(sonarrLogo).
-		SetColor(infoColor).
-		SetTitle("Episode Grabbed " + checkMark)
+		SetColor(infoColor)
 
 	episode := data.Episodes[0]
 	title := fmt.Sprintf(
-		"%s Season %d Episode %d",
+		"%s Season %d Episode %d - Grabbed",
 		data.Series.Title,
 		*episode.SeasonNumber,
 		*episode.EpisodeNumber,
@@ -109,10 +108,9 @@ func createSonarrDownloadEmbed(data SonarrJSON) *discordgo.MessageEmbed {
 func createRadarrGrabEmbed(data RadarrJSON) *discordgo.MessageEmbed {
 	messageEmbed := NewEmbed().
 		SetThumbnail(radarrLogo).
-		SetColor(infoColor).
-		SetTitle("Movie grabbed successfully " + checkMark)
+		SetColor(infoColor)
 
-	title := fmt.Sprintf("%s (%d)", data.RemoteMovie.Title, *data.RemoteMovie.Year)
+	title := fmt.Sprintf("%s (%d) - Grabbed", data.RemoteMovie.Title, *data.RemoteMovie.Year)
 	information := fmt.Sprintf(
 		"Release Title: %s\nQuality: %s\nSize: %s\nIndexer: %s",
 		data.Release.ReleaseTitle,
@@ -128,10 +126,9 @@ func createRadarrGrabEmbed(data RadarrJSON) *discordgo.MessageEmbed {
 func createRadarrDownloadEmbed(data RadarrJSON) *discordgo.MessageEmbed {
 	messageEmbed := NewEmbed().
 		SetThumbnail(radarrLogo).
-		SetColor(successColor).
-		SetTitle("Movie downloaded " + checkMark)
+		SetColor(successColor)
 
-	title := fmt.Sprintf("%s (%d)", data.RemoteMovie.Title, *data.RemoteMovie.Year)
+	title := fmt.Sprintf("%s (%d) %s", data.RemoteMovie.Title, *data.RemoteMovie.Year, checkMark)
 	information := fmt.Sprintf(
 		"Quality: %s\nRelease Group: %s",
 		data.MovieFile.Quality,
