@@ -2,8 +2,8 @@ FROM golang:1.12.5-stretch as builder
 
 WORKDIR /app
 
-# Copy go.mod and go.sum first to make sure
 COPY go.mod .
+
 COPY go.sum .
 
 RUN go mod download
