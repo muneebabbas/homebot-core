@@ -76,7 +76,7 @@ func createSonarrGrabEmbed(data SonarrJSON) *discordgo.MessageEmbed {
 		data.Release.Quality,
 		humanize.Bytes(*data.Release.Size),
 	)
-	messageEmbed.AddField(title, information)
+	messageEmbed.SetTitle(title).SetDescription(information)
 	return messageEmbed.MessageEmbed
 }
 
@@ -100,7 +100,7 @@ func createSonarrDownloadEmbed(data SonarrJSON) *discordgo.MessageEmbed {
 		episode.Title,
 		data.EpisodeFile.Quality,
 	)
-	messageEmbed.AddField(title, information)
+	messageEmbed.SetTitle(title).SetDescription(information)
 	return messageEmbed.MessageEmbed
 }
 
@@ -118,7 +118,7 @@ func createRadarrGrabEmbed(data RadarrJSON) *discordgo.MessageEmbed {
 		humanize.Bytes(*data.Release.Size),
 		data.Release.Indexer,
 	)
-	messageEmbed.AddField(title, information)
+	messageEmbed.SetTitle(title).SetDescription(information)
 	return messageEmbed.MessageEmbed
 }
 
@@ -134,7 +134,7 @@ func createRadarrDownloadEmbed(data RadarrJSON) *discordgo.MessageEmbed {
 		data.MovieFile.Quality,
 		data.MovieFile.ReleaseGroup,
 	)
-	messageEmbed.AddField(title, information)
+	messageEmbed.SetTitle(title).SetDescription(information)
 	return messageEmbed.MessageEmbed
 }
 
