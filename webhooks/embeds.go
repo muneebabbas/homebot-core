@@ -76,7 +76,7 @@ func createSonarrGrabEmbed(data SonarrJSON) *discordgo.MessageEmbed {
 		data.Release.Quality,
 		humanize.Bytes(*data.Release.Size),
 	)
-	messageEmbed.SetTitle(title).SetDescription(information)
+	messageEmbed.AddField(title, information)
 	return messageEmbed.MessageEmbed
 }
 
